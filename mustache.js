@@ -59,7 +59,7 @@
   var spaceRe = /\s+/;
   var equalsRe = /\s*=/;
   var curlyRe = /\s*\}/;
-  var tagRe = /#|\^|\/|>|\{|&|=|!/;
+  var tagRe = /#|\^|\/|>|\{|\?|&|=|!/;
 
   /**
    * Breaks up the given `template` string into a tree of tokens. If the `tags`
