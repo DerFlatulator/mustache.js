@@ -181,7 +181,7 @@
       token = [ type, value, start, scanner.pos ];
       tokens.push(token);
 
-      if (type === '#' || type === '^') {
+      if (type === '#' || type === '^' || type === "?") {
         sections.push(token);
       } else if (type === '/') {
         // Check section nesting.
@@ -252,6 +252,7 @@
       switch (token[0]) {
       case '#':
       case '^':
+      case '?':
         collector.push(token);
         sections.push(token);
         collector = token[4] = [];
@@ -491,6 +492,16 @@
           buffer += this.renderTokens(token[4], context, partials, originalTemplate);
 
         break;
+      case '?':
+        value = context.lookup(token[1]);
+
+        // Use JavaScript's definition of falsy. Include empty arrays.
+        // See https://github.com/janl/mustache.js/issues/186
+        if (value || (isArray(value) && value.length !== 0))
+          buffer += this.renderTokens(token[4], context, partials, originalTemplate);
+
+        break;
+        
       case '>':
         if (!partials)
           continue;
